@@ -18,7 +18,7 @@ export const signup = async (req, res, next) => {
   }
 
   // 3) Hashing the password
-  const hashedPassword = bcryptjs.hashSync(password, 18);
+  const hashedPassword = bcryptjs.hashSync(password, 12);
 
   // 4) Craete a new user using the User model
   const newUser = new User({
