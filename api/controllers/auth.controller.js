@@ -63,11 +63,12 @@ export const signin = async (req, res, next) => {
       // {expiresIn:"1d"}
     );
 
+    // To extract the password from the user object
     const { password: pass, ...rest } = validUser._doc;
 
     res
       .status(200)
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, { httpOnly: true }) // httpOnly property mean that the token can only  be modefied by the server
       .json(rest);
   } catch (error) {
     next(error);
