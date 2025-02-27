@@ -104,7 +104,7 @@ export const google = async (req, res, next) => {
       });
       await newUser.save();
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-      const { password, ...res } = newUser._doc;
+      const { password, ...rest } = newUser._doc;
       res
         .status(200)
         .cookie("access_token", token, {
