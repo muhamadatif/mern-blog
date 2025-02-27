@@ -5,7 +5,6 @@ import { Link, useLocation } from "react-router-dom";
 const DashSidebar = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
-  console.log(location);
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");
@@ -23,6 +22,7 @@ const DashSidebar = () => {
               icon={HiUser}
               label={"User"}
               labelColor="dark"
+              as="div" // because <Link> as <a> and <Sidebar.Item> as also <a> element so we can not use <a> element inside another <a> element
             >
               Profile
             </Sidebar.Item>

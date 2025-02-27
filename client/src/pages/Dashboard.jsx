@@ -6,7 +6,6 @@ import DashProfile from "../components/DashProfile";
 const Dashboard = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
-  console.log(location);
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");
