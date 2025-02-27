@@ -131,6 +131,7 @@ const DashProfile = () => {
       } else {
         dispatch(updateSuccess(data));
         setUpdateUserSuccess("User's profile updated successfully");
+        setUploadProgress(0);
       }
     } catch (error) {
       dispatch(updateFailure(error));
