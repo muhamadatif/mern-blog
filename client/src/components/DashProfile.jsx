@@ -20,15 +20,19 @@ import { Link } from "react-router-dom";
 
 const DashProfile = () => {
   const { currentUser, error, loading } = useSelector((state) => state.user);
-  const [image, setImage] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  const [uploadError, setUploadError] = useState(null);
-  const [uploadProgress, setUploadProgress] = useState(null);
-  const [uploading, setUploading] = useState(false);
+  const [uploadImageError, setUploadError] = useState(null);
+  const [uploadImageProgress, setUploadImageProgress] = useState(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
-  const [formData, setFormData] = useState({});
+  const [updateFormData, setUpdateFormData] = useState({});
   const [showModal, setShowModal] = useState(false);
+
+  // Create a ref to store the latest value of updateFormData
+  const updateFormDataRef = useRef(updateFormData);
+  updateFormDataRef.current = updateFormData; // Update the ref whenever updateFormData changes
 
   const filePickerRef = useRef();
   const dispatch = useDispatch();
@@ -36,25 +40,24 @@ const DashProfile = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file);
+      setImageFile(file);
       file.size < MAX_SIZE && setImageUrl(URL.createObjectURL(file));
     }
   };
 
   useEffect(() => {
-    if (image) {
+    if (imageFile) {
       const uploadImage = async () => {
-        if (!image) return;
-        setUploading(true);
+        setUploadingImage(true);
         setUploadError(null);
 
-        if (image.size > MAX_SIZE) {
+        if (imageFile.size > MAX_SIZE) {
           setUploadError("File size cannot exceed 2 Megabytes");
           return;
         }
 
         const formData = new FormData();
-        formData.append("file", image);
+        formData.append("file", imageFile);
         formData.append(
           "upload_preset",
           import.meta.env.VITE_CLOUDINARY_PRESET_NAME
@@ -75,43 +78,43 @@ const DashProfile = () => {
                 const progress = Math.round(
                   (progressEvent.loaded / progressEvent.total) * 100
                 );
-                setUploadProgress(progress); // Update progress state
+                setUploadImageProgress(progress); // Update progress state
               },
             }
           );
           setImageUrl(response.data.secure_url);
-          setFormData({
-            ...formData,
+          setUpdateFormData({
+            ...updateFormDataRef,
             profilePicture: response.data.secure_url,
           });
         } catch (error) {
           setUploadError(error.message);
-          setUploading(false);
-          setImage(null);
+          setUploadingImage(false);
+          setImageFile(null);
           setImageUrl(null);
         } finally {
-          // setUploadProgress(null); // Reset progress after upload is complete
-          setImage(null);
-          setUploading(false);
+          // setUploadImageProgress(null); // Reset progress after upload is complete
+          setImageFile(null);
+          setUploadingImage(false);
         }
       };
       uploadImage();
     }
-  }, [image]);
+  }, [imageFile]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setUpdateFormData({ ...updateFormData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUpdateUserSuccess(null);
     setUpdateUserError(null);
-    if (Object.keys(formData).length === 0) {
+    if (Object.keys(updateFormData).length === 0) {
       setUpdateUserError("No changes made");
       return;
     }
-    if (uploading) {
+    if (uploadingImage) {
       setUpdateUserError("Please wait for image to upload");
       return;
     }
@@ -123,7 +126,7 @@ const DashProfile = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(updateFormData),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -132,7 +135,7 @@ const DashProfile = () => {
       } else {
         dispatch(updateSuccess(data));
         setUpdateUserSuccess("User's profile updated successfully");
-        setUploadProgress(0);
+        setUploadImageProgress(0);
       }
     } catch (error) {
       dispatch(updateFailure(error));
@@ -189,10 +192,10 @@ const DashProfile = () => {
           className="relative w-32 h-32 self-center cursor-pointer shadow-md rounded-full"
           onClick={() => filePickerRef.current.click()}
         >
-          {uploadProgress > 0 && uploadProgress <= 100 && (
+          {uploadImageProgress > 0 && uploadImageProgress <= 100 && (
             <CircularProgressbar
-              value={uploadProgress}
-              text={`${uploadProgress}%`}
+              value={uploadImageProgress}
+              text={`${uploadImageProgress}%`}
               strokeWidth={5}
               styles={{
                 root: {
@@ -203,7 +206,7 @@ const DashProfile = () => {
                   left: 0,
                 },
                 path: {
-                  stroke: `rgba(62,152,199),${uploadProgress / 100}`,
+                  stroke: `rgba(62,152,199),${uploadImageProgress / 100}`,
                 },
               }}
             />
@@ -212,11 +215,11 @@ const DashProfile = () => {
             src={imageUrl || currentUser.profilePicture}
             alt="user"
             className={`rounded-full w-full h-full max-w-[100%] object-cover border-8 border-[lightgray] ${
-              uploadProgress && uploadProgress < 100 && "opacity-60"
+              uploadImageProgress && uploadImageProgress < 100 && "opacity-60"
             }`}
           />
         </div>
-        {uploadError && <Alert color="failure">{uploadError}</Alert>}
+        {uploadImageError && <Alert color="failure">{uploadImageError}</Alert>}
         <TextInput
           type="text"
           id="username"
@@ -241,7 +244,7 @@ const DashProfile = () => {
           type="submit"
           gradientDuoTone="purpleToBlue"
           outline
-          disabled={loading || uploading}
+          disabled={loading || uploadingImage}
         >
           {loading ? "Loading..." : "Update"}
         </Button>
