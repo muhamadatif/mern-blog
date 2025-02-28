@@ -8,6 +8,8 @@ import Projects from "./pages/Projects";
 import Header from "./components/Header";
 import FooterComp from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
+import CreatePost from "./pages/CreatePost";
+import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 const App = () => {
   return (
     <BrowserRouter>
@@ -20,6 +22,9 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/projects" element={<Projects />} />
+        </Route>
+        <Route element={<OnlyAdminPrivateRoute />}>
+          <Route path="/create-post" element={<CreatePost />} />
         </Route>
       </Routes>
       <FooterComp />

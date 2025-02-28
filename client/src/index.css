@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  height: 100vh;
+}
+
+/* to style the editor in the  react-qill component */
+.ql-editor {
+  /* this will increase the font-size by 5% */
+  font-size: 1.05rem;
+}
