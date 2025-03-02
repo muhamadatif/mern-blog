@@ -30,17 +30,19 @@ export const create = async (req, res, next) => {
   }
 };
 
-export const getPosts = async (req, res, next) => {
+export const getposts = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
+
     const limit = parseInt(req.query.limit) || 9;
+
     const sortDirection = req.query.order === "asc" ? 1 : -1;
 
     const posts = await Post.find({
       ...(req.query.userId && { userId: req.query.userId }),
       ...(req.query.category && { category: req.query.category }),
       ...(req.query.slug && { slug: req.query.slug }),
-      ...(req.query.postId && { postId: req.query.postId }),
+      ...(req.query.postId && { _id: req.query.postId }),
       ...(req.query.searchTerm && {
         // $or allow us to search among two queries
         // $regex allow us to search for part of the query not all the query
@@ -76,17 +78,38 @@ export const getPosts = async (req, res, next) => {
   }
 };
 
-export const deletePost = async (req, res, next) => {
-  console.log(req.user.isAdmin, req.user.id, req.params.userId);
-
+export const deletepost = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(403, "You are not allowed to delete this post");
   }
   try {
-    console.log("hi");
-
     await Post.findByIdAndDelete(req.params.postId);
     res.status(200).json("The post has been deleted");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updatepost = async (req, res, next) => {
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    return next(403, "You are not allowed to update this post");
+  }
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.postId,
+      {
+        // in order to protect our database so that we only pass the data we need
+        $set: {
+          title: req.body.title,
+          content: req.body.conent,
+          category: req.body.category,
+          image: req.body.image,
+        },
+      },
+      { new: true } // to get the new result
+    );
+
+    res.status(200).json(updatedPost);
   } catch (error) {
     next(error);
   }

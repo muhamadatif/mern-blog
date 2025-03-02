@@ -138,7 +138,7 @@ const DashPosts = () => {
           )}
         </>
       ) : (
-        <p>You have not posts yet</p>
+        <p>You have no posts yet</p>
       )}
       <Modal
         show={showModal}
