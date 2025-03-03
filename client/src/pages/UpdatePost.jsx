@@ -1,12 +1,11 @@
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import ReactQuillComponent from "../components/ReactQuillComponent";
 
 const UpdatePost = () => {
   const [imageFile, setImageFile] = useState(null);
@@ -180,7 +179,7 @@ const UpdatePost = () => {
             className="h-72 w-full object-cover"
           />
         )}
-        <ReactQuill
+        <ReactQuillComponent
           theme="snow"
           placeholder="Write something...."
           className="mb-12 h-72"

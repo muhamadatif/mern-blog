@@ -1,11 +1,11 @@
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
 import { useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+
 import axios from "axios";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate } from "react-router-dom";
+import ReactQuillComponent from "../components/ReactQuillComponent";
 
 const CreatePost = () => {
   const [imageFile, setImageFile] = useState(null);
@@ -13,6 +13,7 @@ const CreatePost = () => {
   const [imageUploadingProgress, setImageUploadingProgress] = useState(null);
   const [createFormData, setCreateFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
+
   const navigate = useNavigate();
 
   const handleUploadImage = async () => {
@@ -26,7 +27,7 @@ const CreatePost = () => {
       formData.append("file", imageFile);
       formData.append(
         "upload_preset",
-        import.meta.env.VITE_CLOUDINARY_PRESET_NAME
+        import.meta.env.VITE_CLOUDINARY_PRESET_NAME,
       );
       formData.append("cloud_name", import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
 
@@ -38,11 +39,11 @@ const CreatePost = () => {
         {
           onUploadProgress: (progressEvent) => {
             const progress = Math.round(
-              (progressEvent.loaded / progressEvent.total) * 100
+              (progressEvent.loaded / progressEvent.total) * 100,
             );
             setImageUploadingProgress(progress); // Update progress state
           },
-        }
+        },
       );
       setCreateFormData({
         ...createFormData,
@@ -84,12 +85,12 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="p-3 max-w-3xl min-h-screen mx-auto ">
-      <h1 className="text-center text-3xl my-7 font-semibold">
+    <div className="mx-auto min-h-screen max-w-3xl p-3">
+      <h1 className="my-7 text-center text-3xl font-semibold">
         Create a post{" "}
       </h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-4 sm:flex-row justify-between">
+        <div className="flex flex-col justify-between gap-4 sm:flex-row">
           <TextInput
             type="text"
             placeholder="Title"
@@ -111,7 +112,7 @@ const CreatePost = () => {
             <option value={"nextjs"}>Next.js</option>
           </Select>
         </div>
-        <div className="flex gap-4 items-center justify-between border-4 border-teal-500  border-dotted p-3">
+        <div className="flex items-center justify-between gap-4 border-4 border-dotted border-teal-500 p-3">
           <FileInput
             type="file"
             accept="image/*"
@@ -127,7 +128,7 @@ const CreatePost = () => {
             disabled={imageUploadingProgress}
           >
             {imageUploadingProgress ? (
-              <div className="w-16 h-16">
+              <div className="h-16 w-16">
                 <CircularProgressbar
                   value={imageUploadingProgress}
                   text={`${imageUploadingProgress || 0}%`}
@@ -145,13 +146,13 @@ const CreatePost = () => {
           <img
             src={createFormData.image}
             alt="upload"
-            className="w-full h-72 object-cover"
+            className="h-72 w-full object-cover"
           />
         )}
-        <ReactQuill
+        <ReactQuillComponent
           theme="snow"
           placeholder="Write something...."
-          className="h-72 mb-12"
+          className="mb-12 h-72"
           required
           onChange={(value) =>
             setCreateFormData({ ...createFormData, content: value })

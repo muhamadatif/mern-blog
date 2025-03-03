@@ -37,6 +37,14 @@ body {
   color: rgb(73, 149, 199);
   text-decoration: underline;
 }
+.post-content .ql-syntax {
+  background: #1e1e1e; /* Dark background like VS Code */
+  color: #d4d4d4; /* Default text color */
+  font-family: "Fira Code", "Courier New", monospace; /* Use a coding font */
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+}
 
 .dark .post-content a {
   color: red;

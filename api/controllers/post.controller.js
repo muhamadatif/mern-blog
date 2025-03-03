@@ -101,7 +101,7 @@ export const updatepost = async (req, res, next) => {
         // in order to protect our database so that we only pass the data we need
         $set: {
           title: req.body.title,
-          content: req.body.conent,
+          content: req.body.content,
           category: req.body.category,
           image: req.body.image,
         },
