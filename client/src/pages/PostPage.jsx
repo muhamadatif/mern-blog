@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { Button, Spinner } from "flowbite-react";
 import DOMPurify from "dompurify"; // It's used to prevent Cross-Site Scripting (XSS) vulnerabilities from adding a user
 import CallToAction from "../components/CallToAction";
+import CommentSection from "../components/CommentSection";
 
 export default function PostPage() {
   const [loading, setLoading] = useState(true);
@@ -74,6 +75,7 @@ export default function PostPage() {
       <div className="mx-auto w-full max-w-4xl">
         <CallToAction />
       </div>
+      <CommentSection postId={post._id} />
     </main>
   );
 }

@@ -12,9 +12,12 @@ import CreatePost from "./pages/CreatePost";
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
+import ScrollToTop from "./components/ScrollToTop";
 const App = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />{" "}
+      {/*So that when we go from a rout to another we go to the top of the targeted page */}
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
