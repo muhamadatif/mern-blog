@@ -33,8 +33,6 @@ export default function PostPage() {
     fetchPost();
   }, [postSlug]);
 
-  console.log(post);
-
   if (loading)
     return (
       <div className="flex min-h-screen items-center justify-center">
