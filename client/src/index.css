@@ -33,19 +33,39 @@ body {
   color: rgb(73, 149, 199);
   text-decoration: none;
 }
-.post-content a:hover {
-  color: rgb(73, 149, 199);
-  text-decoration: underline;
-}
-.post-content .ql-syntax {
-  background: #1e1e1e; /* Dark background like VS Code */
-  color: #d4d4d4; /* Default text color */
-  font-family: "Fira Code", "Courier New", monospace; /* Use a coding font */
-  padding: 10px;
-  border-radius: 5px;
-  overflow-x: auto; /* Enable horizontal scrolling */
-}
 
 .dark .post-content a {
-  color: red;
+  color: red !important;
+}
+
+.post-content a:hover {
+  text-decoration: underline;
+}
+
+.post-content pre.ql-syntax {
+  background-color: #1e1e1e !important; /* Dark background */
+  color: #f8f8f2 !important; /* Light text */
+  padding: 12px !important;
+  border-radius: 5px !important;
+  font-family: "Fira Code", monospace !important; /* Monospace font */
+  overflow-x: auto !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; /* Subtle shadow */
+}
+.post-content .ql-syntax {
+  background-color: #1e1e1e !important; /* Dark background */
+  color: #f8f8f2 !important; /* Light text */
+  padding: 12px !important;
+  border-radius: 5px !important;
+  font-family: "Fira Code", monospace !important; /* Monospace font */
+  overflow-x: auto !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; /* Subtle shadow */
+}
+.post-content code {
+  background-color: #1e1e1e !important; /* Dark background */
+  color: #f8f8f2 !important; /* Light text */
+  padding: 12px !important;
+  border-radius: 5px !important;
+  font-family: "Fira Code", monospace !important; /* Monospace font */
+  overflow-x: auto !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; /* Subtle shadow */
 }

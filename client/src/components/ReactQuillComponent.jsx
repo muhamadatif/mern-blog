@@ -10,7 +10,7 @@ const modules = {
   toolbar: [
     ["bold", "italic", "underline", "strike"], // Basic text styling
     [{ header: [1, 2, 3, false] }], // Headers
-    ["blockquote", "code-block"], // Code block support
+    ["blockquote", "code-block", "code"], // Code block support
     [{ list: "ordered" }, { list: "bullet" }], // Lists
     [{ script: "sub" }, { script: "super" }], // Superscript/subscript
     [{ indent: "-1" }, { indent: "+1" }], // Indentation
@@ -32,6 +32,7 @@ const formats = [
   "strike",
   "blockquote",
   "code-block",
+  "code",
   "list",
   "bullet",
   "indent",
@@ -49,6 +50,7 @@ const ReactQuillComponent = ({
   className,
   placeholder,
   required,
+  value,
 }) => {
   return (
     <ReactQuill
@@ -59,6 +61,7 @@ const ReactQuillComponent = ({
       className={className}
       placeholder={placeholder}
       required={required}
+      value={value}
     />
   );
 };
