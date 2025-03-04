@@ -14,7 +14,6 @@ export const create = async (req, res, next) => {
     .join("-")
     .toLowerCase()
     .replace(/[^a-zA-Z0-9-]/g, "-"); // We will replace anything that is not a letters or a number with a -
-  console.log(req.body);
 
   const newPost = new Post({
     ...req.body,
