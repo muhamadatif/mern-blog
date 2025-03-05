@@ -80,7 +80,7 @@ export const signout = (req, res, next) => {
   }
 };
 
-export const getusers = async (req, res, next) => {
+export const getUsers = async (req, res, next) => {
   if (!req.user.isAdmin) {
     return next(errorHandler(403, "You are not allowed to see all users"));
   }
